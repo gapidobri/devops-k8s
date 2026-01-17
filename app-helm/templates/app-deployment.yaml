@@ -29,3 +29,10 @@ spec:
               value: {{ .Values.postgres.auth.user }}
             - name: DB_PASSWORD
               value: {{ .Values.postgres.auth.password }}
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: /
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            failureThreshold: 3
