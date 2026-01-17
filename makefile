@@ -1,5 +1,12 @@
 deploy:
 	kubectl apply \
+		-f observability-namespace.yaml \
+		-f observability-clusterrole.yaml \
+		-f observability-clusterrolebinding.yaml \
+		-f observability-sa.yaml \
+		-f alloy-config.yaml \
+		-f alloy-deployment.yaml \
+		-f grafana-config.yaml \
 		-f grafana-deployment.yaml \
 		-f grafana-httproute.yaml \
 		-f grafana-pvc.yaml \
@@ -8,4 +15,3 @@ deploy:
 		-f loki-deployment.yaml \
 		-f loki-pvc.yaml \
 		-f loki-service.yaml \
-		-f observability-namespace.yaml

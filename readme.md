@@ -3,6 +3,10 @@
 
 ### Traefik
 ```bash
+helm repo add traefik https://traefik.github.io/charts
+helm repo update
+kubectl create namespace traefik
+
 helm install traefik --namespace traefik traefik/traefik --wait \
   --set ingressRoute.dashboard.enabled=true \
   --set ingressRoute.dashboard.matchRule='Host(`traefik.localhost`)' \
@@ -11,16 +15,28 @@ helm install traefik --namespace traefik traefik/traefik --wait \
   --set gateway.listeners.web.namespacePolicy.from=All
 ```
 
-### Cert Manager
+### App
 ```bash
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.19.2/cert-manager.yaml
+helm install todo-app --namespace todo-app
 ```
+
+### Observability
 
 ```bash
 kubectl apply \
-  -f observability-namespace.yaml \
-  -f grafana-deployment.yaml \
-  -f grafana-pvc.yaml \
-  -f grafana-service.yaml \
-  -f  
+    -f observability-namespace.yaml \
+    -f observability-clusterrole.yaml \
+    -f observability-clusterrolebinding.yaml \
+    -f observability-sa.yaml \
+    -f alloy-config.yaml \
+    -f alloy-deployment.yaml \
+    -f grafana-config.yaml \
+    -f grafana-deployment.yaml \
+    -f grafana-httproute.yaml \
+    -f grafana-pvc.yaml \
+    -f grafana-service.yaml \
+    -f loki-config.yaml \
+    -f loki-deployment.yaml \
+    -f loki-pvc.yaml \
+    -f loki-service.yaml
 ```

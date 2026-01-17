@@ -9,24 +9,12 @@ data:
       enabled = true
     }
 
-    discovery.docker "linux" {
-      host = "unix:///var/run/docker.sock"
+    discovery.kubernetes "k8s_pods" {
+      role = "pod"
     }
 
-    discovery.relabel "logs_integrations_docker" {
-      targets = []
-
-      rule {
-        source_labels = ["__meta_docker_container_name"]
-        regex = "/(.*)"
-        target_label = "service_name"
-      }
-    }
-
-    loki.source.docker "default" {
-      host       = "unix:///var/run/docker.sock"
-      targets    = discovery.docker.linux.targets
-      relabel_rules = discovery.relabel.logs_integrations_docker.rules
+    loki.source.kubernetes "pods" {
+      targets    = discovery.kubernetes.k8s_pods.targets
       forward_to = [loki.write.local.receiver]
     }
 
