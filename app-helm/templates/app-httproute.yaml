@@ -20,5 +20,5 @@ spec:
             value: /
       backendRefs:
         - name: {{ include "todo-app.name" . }}
-          port: 80
+          port: 8080
 {{- end }}

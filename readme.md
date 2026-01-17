@@ -15,3 +15,12 @@ helm install traefik --namespace traefik traefik/traefik --wait \
 ```bash
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.19.2/cert-manager.yaml
 ```
+
+```bash
+kubectl apply \
+  -f observability-namespace.yaml \
+  -f grafana-deployment.yaml \
+  -f grafana-pvc.yaml \
+  -f grafana-service.yaml \
+  -f  
+```
