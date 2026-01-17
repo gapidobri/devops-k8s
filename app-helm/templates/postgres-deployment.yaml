@@ -25,6 +25,19 @@ spec:
           volumeMounts:
             - name: {{ include "todo-app.name" . }}-postgres-data
               mountPath: /var/lib/postgresql
+          {{- if .Values.app.probes.liveness.enabled}}
+          livenessProbe:
+            exec:
+              command:
+                - "pg_isready"
+                - "-U"
+                - "{{ .Values.postgres.auth.user }}"
+                - "-d"
+                - "postgres"
+            initialDelaySeconds: {{ .Values.app.probes.liveness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.app.probes.liveness.periodSeconds }}
+            failureThreshold: {{ .Values.app.probes.liveness.failureThreshold }}
+          {{- end }}
       volumes:
         - name: {{ include "todo-app.name" . }}-postgres-data
           persistentVolumeClaim:

@@ -1,11 +1,18 @@
 app:
   image:
     registry: ghcr.io
-    repository: gapidobri/devops-docker
+    repository: gapidobri/devops-k8s
     tag: master
     pullPolicy: IfNotPresent
 
   replicas: 1
+
+  probes:
+    liveness:
+      enabled: true
+      initialDelaySeconds: 15
+      periodSeconds: 10
+      failureThreshold: 3
 
   gateway:
     enabled: true
@@ -19,11 +26,16 @@ app:
 
     hosts:
       - app.localhost
-      - app.devops.gapi
-      - app.devops.gapi.me
 
 postgres:
   image: postgres:18.1
+
+  probes:
+    liveness:
+      enabled: true
+      initialDelaySeconds: 15
+      periodSeconds: 10
+      failureThreshold: 3
 
   auth:
     user: postgres

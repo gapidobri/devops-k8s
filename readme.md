@@ -17,7 +17,11 @@ helm install traefik --namespace traefik traefik/traefik --wait \
 
 ### App
 ```bash
-helm install todo-app --namespace todo-app
+kubectl create namespace todo-app
+
+helm install todo-app --namespace todo-app \
+  --set app.replicas=3 \
+  ./app-helm
 ```
 
 ### Observability

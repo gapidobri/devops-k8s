@@ -29,10 +29,12 @@ spec:
               value: {{ .Values.postgres.auth.user }}
             - name: DB_PASSWORD
               value: {{ .Values.postgres.auth.password }}
+          {{- if .Values.app.probes.liveness.enabled}}
           livenessProbe:
             httpGet:
               port: 8080
               path: /
-            initialDelaySeconds: 15
-            periodSeconds: 10
-            failureThreshold: 3
+            initialDelaySeconds: {{ .Values.app.probes.liveness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.app.probes.liveness.periodSeconds }}
+            failureThreshold: {{ .Values.app.probes.liveness.failureThreshold }}
+          {{- end }}
