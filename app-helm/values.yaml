@@ -1,0 +1,34 @@
+app:
+  image:
+    registry: ghcr.io
+    repository: gapidobri/devops-docker
+    tag: master
+    pullPolicy: IfNotPresent
+
+  replicas: 1
+
+  gateway:
+    enabled: true
+    name: traefik-gateway
+    namespace: traefik
+
+    listeners:
+      - name: https
+        port: 443
+        protocol: HTTPS
+
+    hosts:
+      - app.localhost
+      - app.devops.gapi
+      - app.devops.gapi.me
+
+postgres:
+  image: postgres:18.1
+
+  auth:
+    user: postgres
+    password: postgres
+
+  persistence:
+    enabled: true
+    size: 5Gi

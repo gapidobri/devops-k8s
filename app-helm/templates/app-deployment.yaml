@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "todo-app.name" . }}
+  labels:
+    {{ include "todo-app.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.app.replicas }}
+  selector:
+    matchLabels:
+      app: {{ include "todo-app.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "todo-app.name" . }}
+    spec:
+      containers:
+        - name: app
+          image: "{{ .Values.app.image.registry }}/{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"
+          imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_HOST
+              value: {{ include "todo-app.name" . }}-postgres
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER
+              value: {{ .Values.postgres.auth.user }}
+            - name: DB_PASSWORD
+              value: {{ .Values.postgres.auth.password }}

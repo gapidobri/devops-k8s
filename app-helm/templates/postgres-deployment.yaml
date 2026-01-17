@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "todo-app.name" . }}-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "todo-app.name" . }}-postgres
+  template:
+    metadata:
+      labels:
+        app: {{ include "todo-app.name" . }}-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: {{ .Values.postgres.image }}
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: {{ .Values.postgres.auth.user }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.postgres.auth.password }}
+          volumeMounts:
+            - name: {{ include "todo-app.name" . }}-postgres-data
+              mountPath: /var/lib/postgresql
+      volumes:
+        - name: {{ include "todo-app.name" . }}-postgres-data
+          persistentVolumeClaim:
+            claimName: {{ include "todo-app.name" . }}-postgres-pvc
