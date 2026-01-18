@@ -7,12 +7,12 @@ helm repo add traefik https://traefik.github.io/charts
 helm repo update
 kubectl create namespace traefik
 
-helm install traefik --namespace traefik traefik/traefik --wait \
-  --set ingressRoute.dashboard.enabled=true \
-  --set ingressRoute.dashboard.matchRule='Host(`traefik.localhost`)' \
-  --set ingressRoute.dashboard.entryPoints={web} \
-  --set providers.kubernetesGateway.enabled=true \
-  --set gateway.listeners.web.namespacePolicy.from=All
+helm install traefik --namespace traefik traefik/traefik --wait -f traefik-values.yaml
+```
+
+## Cert Manager
+```bash
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.19.2/cert-manager.yaml
 ```
 
 ## App

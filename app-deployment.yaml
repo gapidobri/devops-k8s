@@ -25,6 +25,8 @@ spec:
           ports:
             - containerPort: 8080
           env:
+            - name: APP_TITLE
+              value: Hiter To-Do
             - name: DB_HOST
               value: postgres
             - name: DB_PASS

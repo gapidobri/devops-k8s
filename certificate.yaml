@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: devops-k8s-gapi-me
+  namespace: traefik
+spec:
+  secretName: devops-k8s-gapi-me-tls
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  dnsNames:
+    - app.devops-k8s.gapi.me
+    - grafana.devops-k8s.gapi.me
+    - traefik.devops-k8s.gapi.me

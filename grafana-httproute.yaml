@@ -7,10 +7,9 @@ spec:
   parentRefs:
     - name: traefik-gateway
       namespace: traefik
+      sectionName: websecure
   hostnames:
-    - grafana.locahost
-    - grafana.devops.gapi
-    - grafana.devops.gapi.me
+    - grafana.devops-k8s.gapi.me
   rules:
     - matches:
         - path:
@@ -19,3 +18,18 @@ spec:
       backendRefs:
         - name: grafana
           port: 3000
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: grafana
+  namespace: observability
+spec:
+  from:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      namespace: traefik
+  to:
+    - group: ""
+      kind: Secret
+      name: grafana-devops-k8s-gapi-me-tls

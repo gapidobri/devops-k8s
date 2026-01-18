@@ -1,0 +1,25 @@
+ingressRoute:
+  dashboard:
+    enabled: true
+    matchRule: 'Host(`traefik.devops-k8s.gapi.me`)'
+    entryPoints:
+      - websecure
+
+providers:
+  kubernetesGateway:
+    enabled: true
+
+gateway:
+  listeners:
+    web:
+      namespacePolicy:
+        from: All
+
+    websecure:
+      port: 8443
+      protocol: HTTPS
+      certificateRefs:
+        - name: devops-k8s-gapi-me-tls
+          namespace: traefik
+      namespacePolicy:
+        from: All

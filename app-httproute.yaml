@@ -5,12 +5,11 @@ metadata:
   namespace: app
 spec:
   parentRefs:
-    - name: traefik-gateway
-      namespace: traefik
+    - namespace: traefik
+      name: traefik-gateway
+      sectionName: websecure
   hostnames:
-    - app.localhost
-    - app.devops.gapi
-    - app.devops.gapi.me
+    - app.devops-k8s.gapi.me
   rules:
     - matches:
         - path:
@@ -19,3 +18,18 @@ spec:
       backendRefs:
         - name: app
           port: 8080
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: app
+  namespace: app
+spec:
+  from:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      namespace: traefik
+  to:
+    - group: ""
+      kind: Secret
+      name: app-devops-k8s-gapi-me-tls
