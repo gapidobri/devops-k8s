@@ -16,33 +16,81 @@ helm install traefik --namespace traefik traefik/traefik --wait \
 ```
 
 ## App
+### Manual
+
+Create namespace
+```bash
+kubectl create namespace app
+```
+
+Create a postgres password secret
+```bash
+kubectl -n app create secret generic postgres-secret \
+  --from-literal=password=changeme
+```
+
+Install
+```bash
+kubectl apply \
+  -f app-deployment.yaml \
+  -f app-httproute.yaml \
+  -f app-service.yaml \
+  -f postgres-deployment.yaml \
+  -f postgres-pvc.yaml \
+  -f postgres-service.yaml
+```
+
+### Helm
 ```bash
 kubectl create namespace todo-app
 
 helm install todo-app --namespace todo-app \
   --set app.replicas=3 \
   --set app.gateway.hosts={app.devops.gapi} \
-  --set app.image.repository="gapidobri/devops-docker" \
   ./app/deployments/helm
 ```
+
 
 ## Observability
 
 ```bash
 kubectl apply \
-    -f observability-namespace.yaml \
-    -f observability-clusterrole.yaml \
-    -f observability-clusterrolebinding.yaml \
-    -f observability-sa.yaml \
-    -f alloy-config.yaml \
-    -f alloy-deployment.yaml \
-    -f grafana-config.yaml \
-    -f grafana-deployment.yaml \
-    -f grafana-httproute.yaml \
-    -f grafana-pvc.yaml \
-    -f grafana-service.yaml \
-    -f loki-config.yaml \
-    -f loki-deployment.yaml \
-    -f loki-pvc.yaml \
-    -f loki-service.yaml
+  -f observability-namespace.yaml \
+  -f observability-clusterrole.yaml \
+  -f observability-clusterrolebinding.yaml \
+  -f observability-sa.yaml \
+  -f alloy-config.yaml \
+  -f alloy-deployment.yaml \
+  -f grafana-config.yaml \
+  -f grafana-deployment.yaml \
+  -f grafana-httproute.yaml \
+  -f grafana-pvc.yaml \
+  -f grafana-service.yaml \
+  -f loki-config.yaml \
+  -f loki-deployment.yaml \
+  -f loki-pvc.yaml \
+  -f loki-service.yaml
+```
+
+# Setup for blue/green deployment
+
+## Blue
+```bash
+helm install todo-app-blue --namespace todo-app \
+  --set env="blue" \
+  --set app.image.tag=1.0 \
+  --set app.replicas=3 \
+  --set app.gateway.hosts={app.devops.gapi} \
+  ./app/deployments/helm
+```
+
+## Green
+```bash
+helm install todo-app-green --namespace todo-app \
+  --set env="green" \
+  --set app.image.tag=2.0 \
+  --set app.service.enabled=false \
+  --set app.replicas=3 \
+  --set app.gateway.hosts={app.devops.gapi} \
+  ./app/deployments/helm
 ```

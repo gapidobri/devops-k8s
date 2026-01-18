@@ -7,10 +7,12 @@ spec:
   selector:
     matchLabels:
       app: {{ include "todo-app.name" . }}-postgres
+      env: {{ .Values.env }}
   template:
     metadata:
       labels:
         app: {{ include "todo-app.name" . }}-postgres
+        env: {{ .Values.env }}
     spec:
       containers:
         - name: postgres

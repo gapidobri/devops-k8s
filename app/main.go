@@ -24,6 +24,8 @@ func getEnvOr(key string, defaultVal string) string {
 }
 
 func setupDatabase() *gorm.DB {
+	log.Println("Setting up database connection")
+
 	dbHost := getEnvOr("DB_HOST", "localhost")
 	dbPort := getEnvOr("DB_PORT", "5432")
 	dbUser := getEnvOr("DB_USER", "postgres")
@@ -45,6 +47,8 @@ func setupDatabase() *gorm.DB {
 }
 
 func setupRouter(db *gorm.DB) *gin.Engine {
+	log.Println("Setting up router")
+
 	templatesPath := getEnvOr("TEMPLATES_PATH", "templates")
 	staticPath := getEnvOr("STATIC_PATH", "./static")
 

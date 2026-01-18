@@ -9,10 +9,17 @@ spec:
   selector:
     matchLabels:
       app: {{ include "todo-app.name" . }}
+      env: {{ .Values.env }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: {{ .Values.app.strategy.rollingUpdate.maxSurge }}
+      maxUnavailable: {{ .Values.app.strategy.rollingUpdate.maxUnavailable }}
   template:
     metadata:
       labels:
         app: {{ include "todo-app.name" . }}
+        env: {{ .Values.env }}
     spec:
       containers:
         - name: app
@@ -33,7 +40,7 @@ spec:
           livenessProbe:
             httpGet:
               port: 8080
-              path: /
+              path: /healthz
             initialDelaySeconds: {{ .Values.app.probes.liveness.initialDelaySeconds }}
             periodSeconds: {{ .Values.app.probes.liveness.periodSeconds }}
             failureThreshold: {{ .Values.app.probes.liveness.failureThreshold }}
