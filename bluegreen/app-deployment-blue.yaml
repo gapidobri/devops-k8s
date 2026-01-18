@@ -20,11 +20,13 @@ spec:
     spec:
       containers:
         - name: app
-          image: "ghcr.io/gapidobri/devops-k8s:master" # TODO: change
+          image: "ghcr.io/gapidobri/devops-k8s:master"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
           env:
+            - name: APP_TITLE
+              value: Blue Deployment
             - name: DB_HOST
               value: postgres
             - name: DB_PASS

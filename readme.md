@@ -74,3 +74,19 @@ kubectl apply \
 
 # Setup for blue/green deployment
 
+Create two deployments
+```bash
+kubectl apply \
+    -f bluegreen/app-deployment-blue.yaml \
+    -f bluegreen/app-deployment-green.yaml
+```
+
+Activate blue deployment
+```bash
+  kubectl apply -f bluegreen/app-service-blue.yaml
+```
+
+Activate green deployment
+```bash
+  kubectl apply -f bluegreen/app-service-green.yaml
+```
