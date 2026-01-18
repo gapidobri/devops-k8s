@@ -8,6 +8,9 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	healthcheck "github.com/tavsec/gin-healthcheck"
+	"github.com/tavsec/gin-healthcheck/checks"
+	"github.com/tavsec/gin-healthcheck/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -48,6 +51,11 @@ func setupRouter(db *gorm.DB) *gin.Engine {
 	router := gin.Default()
 	router.LoadHTMLGlob(fmt.Sprintf("%s/*", templatesPath))
 	router.Static("/static", staticPath)
+
+	sqlDB, _ := db.DB()
+	_ = healthcheck.New(router, config.DefaultConfig(), []checks.Check{
+		checks.SqlCheck{Sql: sqlDB},
+	})
 
 	router.GET("/", func(c *gin.Context) {
 		tasks, err := gorm.G[Task](db).Find(c.Request.Context())

@@ -1,7 +1,7 @@
 
 # Installation
 
-### Traefik
+## Traefik
 ```bash
 helm repo add traefik https://traefik.github.io/charts
 helm repo update
@@ -15,16 +15,18 @@ helm install traefik --namespace traefik traefik/traefik --wait \
   --set gateway.listeners.web.namespacePolicy.from=All
 ```
 
-### App
+## App
 ```bash
 kubectl create namespace todo-app
 
 helm install todo-app --namespace todo-app \
   --set app.replicas=3 \
-  ./app-helm
+  --set app.gateway.hosts={app.devops.gapi} \
+  --set app.image.repository="gapidobri/devops-docker" \
+  ./app/deployments/helm
 ```
 
-### Observability
+## Observability
 
 ```bash
 kubectl apply \
