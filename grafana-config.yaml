@@ -42,7 +42,7 @@ data:
       "editable": true,
       "fiscalYearStartMonth": 0,
       "graphTooltip": 0,
-      "id": 0,
+      "id": 2,
       "links": [],
       "panels": [
         {
@@ -81,7 +81,7 @@ data:
               },
               "direction": "backward",
               "editorMode": "builder",
-              "expr": "{instance=~\"todo-app/.*:app\"} |= ``",
+              "expr": "{instance=~\".*:app\"} |= ``",
               "queryType": "range",
               "refId": "A"
             }
@@ -104,5 +104,5 @@ data:
       "timezone": "browser",
       "title": "Logs",
       "uid": "adqfb6j",
-      "version": 2
+      "version": 1
     }

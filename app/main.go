@@ -68,7 +68,9 @@ func setupRouter(db *gorm.DB) *gin.Engine {
 			return
 		}
 
-		c.HTML(http.StatusOK, "index.gohtml", gin.H{"tasks": tasks})
+		title := getEnvOr("APP_TITLE", "Hiter To‑Do")
+
+		c.HTML(http.StatusOK, "index.gohtml", gin.H{"title": title, "tasks": tasks})
 	})
 
 	router.POST("/add", func(c *gin.Context) {

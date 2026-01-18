@@ -1,17 +1,10 @@
-deploy:
+deploy-bluegreen:
 	kubectl apply \
-		-f observability-namespace.yaml \
-		-f observability-clusterrole.yaml \
-		-f observability-clusterrolebinding.yaml \
-		-f observability-sa.yaml \
-		-f alloy-config.yaml \
-		-f alloy-deployment.yaml \
-		-f grafana-config.yaml \
-		-f grafana-deployment.yaml \
-		-f grafana-httproute.yaml \
-		-f grafana-pvc.yaml \
-		-f grafana-service.yaml \
-		-f loki-config.yaml \
-		-f loki-deployment.yaml \
-		-f loki-pvc.yaml \
-		-f loki-service.yaml \
+		-f bluegreen/app-deployment-blue.yaml \
+		-f bluegreen/app-deployment-green.yaml
+
+switch-blue:
+	kubectl apply -f bluegreen/app-service-blue.yaml
+
+switch-green:
+	kubectl apply -f bluegreen/app-service-green.yaml

@@ -74,23 +74,3 @@ kubectl apply \
 
 # Setup for blue/green deployment
 
-## Blue
-```bash
-helm install todo-app-blue --namespace todo-app \
-  --set env="blue" \
-  --set app.image.tag=1.0 \
-  --set app.replicas=3 \
-  --set app.gateway.hosts={app.devops.gapi} \
-  ./app/deployments/helm
-```
-
-## Green
-```bash
-helm install todo-app-green --namespace todo-app \
-  --set env="green" \
-  --set app.image.tag=2.0 \
-  --set app.service.enabled=false \
-  --set app.replicas=3 \
-  --set app.gateway.hosts={app.devops.gapi} \
-  ./app/deployments/helm
-```

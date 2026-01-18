@@ -1,3 +1,5 @@
+ARG APP_TITLE=""
+
 FROM golang:1.25.5 AS build
 
 WORKDIR /build
@@ -19,6 +21,7 @@ COPY --from=build /build/static /static
 
 ENV TEMPLATES_PATH=/templates
 ENV STATIC_PATH=/static
+ENV APP_TITLE=$APP_TITLE
 
 ENV GIN_MODE=release
 

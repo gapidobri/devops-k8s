@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: app-blue
   namespace: app
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: app
+      app: app-blue
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -16,11 +16,11 @@ spec:
   template:
     metadata:
       labels:
-        app: app
+        app: app-blue
     spec:
       containers:
         - name: app
-          image: "ghcr.io/gapidobri/devops-k8s:master"
+          image: "ghcr.io/gapidobri/devops-k8s:master" # TODO: change
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
