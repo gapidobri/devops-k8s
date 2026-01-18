@@ -122,10 +122,10 @@ func main() {
 
 	router := setupRouter(db)
 
+	log.Println("server listening on port 8080")
+
 	err := router.Run(":8080")
 	if err != nil {
 		log.Fatalf("failed to run server: %v", err)
 	}
-
-	log.Println("server listening on port 8080")
 }

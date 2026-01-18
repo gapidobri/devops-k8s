@@ -25,10 +25,8 @@ spec:
           ports:
             - containerPort: 8080
           env:
-            - name: GIN_MODE
-              value: debug
             - name: DB_HOST
-              value: postgres.app
+              value: postgres
             - name: DB_PASS
               valueFrom:
                 secretKeyRef:
