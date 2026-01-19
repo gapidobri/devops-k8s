@@ -15,9 +15,11 @@ The app can be deployed manually or with a Helm chart located in [./app/deployme
 ## Zero-downtime demo
 ### Rolling update
 
+https://github.com/user-attachments/assets/88b61aac-b617-4e10-8f73-abcfb483744c
 
 ### Blue/green deployment
 
+https://github.com/user-attachments/assets/551c359c-efe1-4a95-94ff-daf98644db6e
 
 ## Installation
 
