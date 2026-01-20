@@ -18,7 +18,7 @@ spec:
         runAsUser: 0
       containers:
         - name: alloy
-          image: grafana/alloy:latest
+          image: grafana/alloy:v1.12.2
           command: ["/bin/alloy"]
           args: ["run", "/etc/alloy/config.alloy"]
           volumeMounts:
